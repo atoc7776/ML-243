@@ -1,0 +1,6 @@
+{
+  "name": "Расписание ML-243",
+  "description": "Интерактивное расписание занятий группы ML-243 с 19.09.2026 по 05.10.2026: менеджмент качества, философия, логистика, международная торговля, евроинтеграция.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
