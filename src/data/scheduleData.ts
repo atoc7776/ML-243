@@ -218,6 +218,19 @@ export const SCHEDULE_PAIRS: PairItem[] = [
 
   // 21.09.2026 (Понедельник)
   {
+    id: 'p-21-0',
+    date: '2026-09-21',
+    time: '09:45 - 11:15',
+    startTime: '09:45',
+    endTime: '11:15',
+    title: 'Философия и критическое мышление',
+    subjectId: 'filosofie',
+    type: 'curs',
+    room: '?',
+    teacherId: 't_maistru',
+    teacherName: 'conf. univ., dr. R. Maistru'
+  },
+  {
     id: 'p-21-1',
     date: '2026-09-21',
     time: '11:30 - 13:00',
@@ -233,9 +246,9 @@ export const SCHEDULE_PAIRS: PairItem[] = [
   {
     id: 'p-21-2',
     date: '2026-09-21',
-    time: '13:30 - 15:00',
+    time: '13:30 - 14:30',
     startTime: '13:30',
-    endTime: '15:00',
+    endTime: '14:30',
     title: 'Философия и критическое мышление',
     subjectId: 'filosofie',
     type: 'curs',
