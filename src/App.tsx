@@ -20,18 +20,22 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const todayDateStr = getTodayDateString(currentTime);
 
-  // Selected date in schedule viewer (defaults to today if it has pairs or the first schedule day)
+  // Selected date in schedule viewer (always defaults to today,
+  // unless the page was opened via a shared link with ?day=...)
   const [selectedDate, setSelectedDate] = useState<string>(() => {
     const params = new URLSearchParams(window.location.search);
     const dayParam = params.get('day');
     if (dayParam) return dayParam;
-    
-    // Check if today is in schedule
-    const hasToday = SCHEDULE_PAIRS.some((p) => p.date === todayDateStr);
-    if (hasToday) return todayDateStr;
 
-    // Otherwise default to the first available schedule day
-    return SCHEDULE_PAIRS[0]?.date || todayDateStr;
+    return todayDateStr;
+  });
+
+  // Popup "no pairs today": shown once on entry if today has no pairs
+  // (not shown when the page is opened via a shared link to a specific day)
+  const [isNoPairsOpen, setIsNoPairsOpen] = useState<boolean>(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('day')) return false;
+    return !SCHEDULE_PAIRS.some((p) => p.date === todayDateStr);
   });
 
   // Selected discipline filter ('all' or discipline id)
@@ -203,6 +207,32 @@ export default function App() {
         onClose={() => setIsShareOpen(false)}
         selectedDate={selectedDate}
       />
+
+      {/* "No pairs today" popup */}
+      {isNoPairsOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4"
+          onClick={() => setIsNoPairsOpen(false)}
+        >
+          <div
+            className="bg-white rounded-3xl shadow-xl max-w-sm w-full p-6 text-center space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+              <Calendar className="w-7 h-7" />
+            </div>
+            <p className="text-base font-extrabold text-slate-900">
+              Сегодня пар нет - чудеса случаются даже в расписании
+            </p>
+            <button
+              onClick={() => setIsNoPairsOpen(false)}
+              className="text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-5 py-2 rounded-xl transition-colors cursor-pointer"
+            >
+              Понятно
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );
