@@ -6,6 +6,7 @@ import {
 } from './data/scheduleData';
 import {
   getTodayDateString,
+  getInitialScheduleDate,
   groupPairsByDate,
   getPairStatus,
   getDayInfo
@@ -18,24 +19,21 @@ import { ShareModal } from './components/ShareModal';
 
 export default function App() {
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const todayDateStr = getTodayDateString(currentTime);
+  
+  // Calculate today's date in schedule
+  const todayDateStr = useMemo(() => {
+    return getInitialScheduleDate(currentTime, SCHEDULE_PAIRS);
+  }, [currentTime]);
 
-  // Selected date in schedule viewer (always defaults to today,
-  // unless the page was opened via a shared link with ?day=...)
+  // Selected date in schedule viewer (always defaults to today on entry)
   const [selectedDate, setSelectedDate] = useState<string>(() => {
-    const params = new URLSearchParams(window.location.search);
-    const dayParam = params.get('day');
-    if (dayParam) return dayParam;
-
-    return todayDateStr;
+    return getInitialScheduleDate(new Date(), SCHEDULE_PAIRS);
   });
 
-  // Popup "no pairs today": shown once on entry if today has no pairs
-  // (not shown when the page is opened via a shared link to a specific day)
+  // Popup "no pairs today": shown only if today has no pairs in schedule
   const [isNoPairsOpen, setIsNoPairsOpen] = useState<boolean>(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('day')) return false;
-    return !SCHEDULE_PAIRS.some((p) => p.date === todayDateStr);
+    const initialToday = getInitialScheduleDate(new Date(), SCHEDULE_PAIRS);
+    return !SCHEDULE_PAIRS.some((p) => p.date === initialToday);
   });
 
   // Selected discipline filter ('all' or discipline id)
@@ -47,7 +45,7 @@ export default function App() {
   // Share modal state
   const [isShareOpen, setIsShareOpen] = useState(false);
 
-  // Update clock every minute for relative pair status badges (e.g. "Идёт сейчас")
+  // Update clock every 30 seconds for relative pair status badges (e.g. "Идёт сейчас")
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
@@ -55,20 +53,30 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Sync selected day and subject with URL query parameters
+  // Clean up any stale ?day= from address bar so browser doesn't lock into a past date
   useEffect(() => {
-    const params = new URLSearchParams();
-    if (selectedDate && selectedDate !== todayDateStr) {
-      params.set('day', selectedDate);
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('day')) {
+      params.delete('day');
+      const newQuery = params.toString();
+      const newUrl = newQuery ? `${window.location.pathname}?${newQuery}` : window.location.pathname;
+      window.history.replaceState({}, '', newUrl);
     }
+  }, []);
+
+  // Keep discipline in URL only if filtered
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
     if (selectedDiscipline !== 'all') {
       params.set('subject', selectedDiscipline);
+    } else {
+      params.delete('subject');
     }
 
     const newQuery = params.toString();
     const newUrl = newQuery ? `${window.location.pathname}?${newQuery}` : window.location.pathname;
     window.history.replaceState({}, '', newUrl);
-  }, [selectedDate, selectedDiscipline, todayDateStr]);
+  }, [selectedDiscipline]);
 
   // Filter pairs by selected discipline
   const filteredPairs = useMemo(() => {
