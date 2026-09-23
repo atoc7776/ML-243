@@ -31,6 +31,41 @@ export function getTodayDateString(dateObj: Date = new Date()): string {
   return `${y}-${m}-${d}`;
 }
 
+export function getInitialScheduleDate(currentTime: Date, allPairs: PairItem[]): string {
+  const todayStr = getTodayDateString(currentTime);
+  const availableDates = Array.from(new Set(allPairs.map(p => p.date))).sort();
+  if (availableDates.length === 0) return todayStr;
+
+  // 1. Exact match with today's date
+  if (availableDates.includes(todayStr)) {
+    return todayStr;
+  }
+
+  // 2. Match by month and day if year differs (e.g. September/October on different device years)
+  const m = String(currentTime.getMonth() + 1).padStart(2, '0');
+  const d = String(currentTime.getDate()).padStart(2, '0');
+  const monthDayMatch = availableDates.find(date => date.endsWith(`-${m}-${d}`));
+  if (monthDayMatch) {
+    return monthDayMatch;
+  }
+
+  // 3. If today is before the first scheduled date
+  if (todayStr < availableDates[0]) {
+    return availableDates[0];
+  }
+
+  // 4. If today is after the last scheduled date
+  if (todayStr > availableDates[availableDates.length - 1]) {
+    return availableDates[availableDates.length - 1];
+  }
+
+  // 5. If today is within range, find the next upcoming scheduled date
+  const nextDate = availableDates.find(d => d >= todayStr);
+  if (nextDate) return nextDate;
+
+  return availableDates[0];
+}
+
 const RU_DAYS = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
 const RU_DAYS_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 const RU_MONTHS = [
