@@ -404,9 +404,35 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     teacherName: 'conf. univ., dr. Iu. Ţurcan'
   },
 
-  // 24.09.2026 (Четверг)
+ // 24.09.2026 (Четверг)
   {
     id: 'p-24-1',
+    date: '2026-09-24',
+    time: '08:00 - 09:30',
+    startTime: '08:00',
+    endTime: '09:30',
+    title: 'Менеджмент качества',
+    subjectId: 'management_calitate',
+    type: 'sem',
+    room: '417',
+    teacherId: 't_turcan',
+    teacherName: 'conf. univ., dr. Iu. Ţurcan'
+  },
+  {
+    id: 'p-24-2',
+    date: '2026-09-24',
+    time: '09:45 - 11:15',
+    startTime: '09:45',
+    endTime: '11:15',
+    title: 'Менеджмент качества',
+    subjectId: 'management_calitate',
+    type: 'sem',
+    room: '417',
+    teacherId: 't_turcan',
+    teacherName: 'conf. univ., dr. Iu. Ţurcan'
+  },
+  {
+    id: 'p-24-3',
     date: '2026-09-24',
     time: '11:30 - 13:00',
     startTime: '11:30',
@@ -419,7 +445,7 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     teacherName: 'conf. univ., dr. R. Maistru'
   },
   {
-    id: 'p-24-2',
+    id: 'p-24-4',
     date: '2026-09-24',
     time: '13:30 - 15:00',
     startTime: '13:30',
@@ -432,7 +458,7 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     teacherName: 'conf. univ., dr. R. Maistru'
   },
   {
-    id: 'p-24-3',
+    id: 'p-24-5',
     date: '2026-09-24',
     time: '15:15 - 16:45',
     startTime: '15:15',
@@ -444,33 +470,6 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     teacherId: 't_turcan',
     teacherName: 'conf. univ., dr. Iu. Ţurcan'
   },
-  {
-    id: 'p-24-4',
-    date: '2026-09-24',
-    time: '17:00 - 18:30',
-    startTime: '17:00',
-    endTime: '18:30',
-    title: 'Менеджмент качества',
-    subjectId: 'management_calitate',
-    type: 'sem',
-    room: '417',
-    teacherId: 't_turcan',
-    teacherName: 'conf. univ., dr. Iu. Ţurcan'
-  },
-  {
-    id: 'p-24-5',
-    date: '2026-09-24',
-    time: '18:45 - 20:15',
-    startTime: '18:45',
-    endTime: '20:15',
-    title: 'Менеджмент качества',
-    subjectId: 'management_calitate',
-    type: 'sem',
-    room: '417',
-    teacherId: 't_turcan',
-    teacherName: 'conf. univ., dr. Iu. Ţurcan'
-  },
-
   // 25.09.2026 (Пятница)
   {
     id: 'p-25-1',
