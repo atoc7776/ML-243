@@ -16,7 +16,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
 
   if (!isOpen) return null;
 
-  const currentUrl = window.location.href;
+  const currentUrl = window.location.origin + window.location.pathname;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(currentUrl);
