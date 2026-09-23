@@ -14,7 +14,8 @@ export const Header: React.FC<HeaderProps> = ({
   const [copiedQuick, setCopiedQuick] = useState(false);
 
   const handleQuickCopy = () => {
-    navigator.clipboard.writeText(window.location.href);
+    const cleanUrl = window.location.origin + window.location.pathname;
+    navigator.clipboard.writeText(cleanUrl);
     setCopiedQuick(true);
     setTimeout(() => setCopiedQuick(false), 2000);
   };
