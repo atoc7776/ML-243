@@ -414,7 +414,7 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     title: 'Менеджмент качества',
     subjectId: 'management_calitate',
     type: 'sem',
-    room: '417',
+    room: '418',
     teacherId: 't_turcan',
     teacherName: 'conf. univ., dr. Iu. Ţurcan'
   },
@@ -427,7 +427,7 @@ export const SCHEDULE_PAIRS: PairItem[] = [
     title: 'Менеджмент качества',
     subjectId: 'management_calitate',
     type: 'sem',
-    room: '417',
+    room: '418',
     teacherId: 't_turcan',
     teacherName: 'conf. univ., dr. Iu. Ţurcan'
   },
